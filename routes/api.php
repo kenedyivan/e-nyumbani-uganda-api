@@ -24,3 +24,5 @@ Route::get('/test',function(){
 Route::get('/listings','MobileUser\ListingsController@getAllListings');
 Route::get('/listings/for-rent','MobileUser\ListingsController@getAllForRent');
 Route::get('/listings/for-sale','MobileUser\ListingsController@getAllForSale');
+Route::get('/listings/search','MobileUser\ListingsController@search');
+Route::get('/listings/property','MobileUser\ListingsController@showProperty');

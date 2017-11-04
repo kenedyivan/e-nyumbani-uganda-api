@@ -30,4 +30,8 @@ class Property extends Model
     public function favorites_to_agent(){
         return $this->belongsToMany('App\Agent','agent_favorites');
     }
+
+    public function reviews(){
+        return $this->hasMany('App\Review');
+    }
 }
