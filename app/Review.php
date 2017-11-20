@@ -14,7 +14,7 @@ class Review extends Model
           return $this->belongsTo('App\Property','property_id');
       }
 
-    // user who favourited
+    // User who reviewed
     public function agent()
     {
       return $this->belongsTo('App\Agent','user_id');

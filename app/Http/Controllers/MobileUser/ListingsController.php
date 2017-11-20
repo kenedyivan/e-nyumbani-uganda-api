@@ -141,6 +141,30 @@ class ListingsController extends Controller
         $p['agent'] = $property->agent->username;
         $p['price'] = $property->price;
 
+
+        
+
+        //clean out the reviews
+        $r_arr = array();
+        $reviews = $property->reviews;
+
+        $rrr = array();
+
+        foreach($reviews as $review){
+            $r_arr['id'] = $review->id;
+            $r_arr['rating'] = $review->rating;
+            $r_arr['review'] = $review->review;
+            $r_arr['created_at'] = $review->created_at;
+            $r_arr['username'] = $review->agent->username;
+            $r_arr['profile_picture'] = $review->agent->profile_picture;
+
+            array_push($rrr, $r_arr);
+        }
+
+        $p['reviews'] = $rrr;
+
+        //end of clean ou the reviews
+
         $p['main_image'] = $property->image;
 
         $otherImages = $property->images;
