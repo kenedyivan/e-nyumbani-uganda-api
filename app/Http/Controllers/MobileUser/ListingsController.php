@@ -197,4 +197,30 @@ class ListingsController extends Controller
     }
 
 
+    function uploadPhoto(){
+        $resp = array();
+
+        if(isset($_POST["image"])) {
+ 
+            $encoded_string = $_POST["encoded_string"];
+            $image_name = $_POST["image"];
+         
+            $decoded_string = base64_decode($encoded_string);
+         
+            $path = public_path().'/uploads/'.$image_name;
+         
+            $file = fopen($path,'wb');
+            $is_written = fwrite($file,$decoded_string);
+            fclose($file);
+             
+            $resp['msg'] = "success";
+        }else{
+            $resp['msg'] = "failed";
+        }
+
+        
+        return json_encode($resp);
+    }
+
+
 }
