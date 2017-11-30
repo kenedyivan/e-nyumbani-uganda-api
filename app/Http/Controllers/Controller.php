@@ -10,4 +10,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    function __construct(){
+    	$this->setCloudinaryAttributes();
+    }
+
+    function setCloudinaryAttributes()
+    {
+        \Cloudinary::config(array(
+            "cloud_name" => "kenedy",
+            "api_key" => "149743782894548",
+            "api_secret" => "6wbU33ZFnwrKcKBIugILwshdPws"
+        ));
+
+    }
 }

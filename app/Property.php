@@ -27,6 +27,10 @@ class Property extends Model
         return $this->hasMany('App\PropertyImage');
     }
 
+    public function cloudImages(){
+        return $this->hasMany('App\PropertyCloudImage');
+    }
+
     public function favorites_to_agent(){
         return $this->belongsToMany('App\Agent','agent_favorites');
     }
