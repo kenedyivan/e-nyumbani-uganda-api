@@ -29,3 +29,8 @@ Route::get('/listings/property','MobileUser\ListingsController@showProperty');
 Route::post('/listings/property/upload-photo','MobileUser\ListingsController@uploadPhoto');
 Route::post('/listings/property/create','MobileUser\ListingsController@createProperty');
 Route::get('/listings/property/cloud-uploader', 'MobileUser\ListingsController@cloudinaryUploader');
+
+
+//User Authentication routes
+Route::post('/login','MobileUser\LoginController@login');
+Route::post('/profile','MobileUser\LoginController@userProfile');

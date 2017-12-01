@@ -33,6 +33,7 @@ class ListingsController extends Controller
             $p['address'] = $property->address;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
+            $p['currency'] = strtolower($property->currency);
             $p['image'] = $property->image;
 
             array_push($m_properties, $p);
@@ -56,6 +57,7 @@ class ListingsController extends Controller
             $p['address'] = $property->address;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
+            $p['currency'] = strtolower($property->currency);
             $p['image'] = $property->image;
 
             array_push($m_properties_for_rent, $p);
@@ -80,6 +82,7 @@ class ListingsController extends Controller
             $p['address'] = $property->address;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
+            $p['currency'] = strtolower($property->currency);
             $p['image'] = $property->image;
 
             array_push($m_properties_for_sale, $p);
@@ -110,6 +113,7 @@ class ListingsController extends Controller
                 $p['address'] = $property->address;
                 $p['agent'] = $property->agent->username;
                 $p['price'] = $property->price;
+                $p['currency'] = strtolower($property->currency);
                 $p['image'] = $property->image;
 
                 array_push($search_properties, $p);
@@ -148,6 +152,7 @@ class ListingsController extends Controller
         $p['status'] = $status;
         $p['agent'] = $property->agent->username;
         $p['price'] = $property->price;
+        $p['currency'] = strtolower($property->currency);
 
 
         
