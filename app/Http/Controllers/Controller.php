@@ -17,10 +17,16 @@ class Controller extends BaseController
 
     function setCloudinaryAttributes()
     {
-        \Cloudinary::config(array(
+        /*\Cloudinary::config(array(
             "cloud_name" => "kenedy",
             "api_key" => "149743782894548",
             "api_secret" => "6wbU33ZFnwrKcKBIugILwshdPws"
+        ));*/
+
+        \Cloudinary::config(array(
+            "cloud_name" => "nyumbani",
+            "api_key" => "797423219223595",
+            "api_secret" => "yojtlscOSecOzF_t_UqfFxY0rPM"
         ));
 
     }

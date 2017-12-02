@@ -34,7 +34,8 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            $p['image'] = $property->image;
+            //$p['image'] = $property->image;
+            $p['image'] = cloudinary_url($property->image);
 
             array_push($m_properties, $p);
         }
@@ -58,7 +59,8 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            $p['image'] = $property->image;
+            //$p['image'] = $property->image;
+            $p['image'] = cloudinary_url($property->image);
 
             array_push($m_properties_for_rent, $p);
         }
@@ -83,7 +85,8 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            $p['image'] = $property->image;
+            //$p['image'] = $property->image;
+            $p['image'] = cloudinary_url($property->image);
 
             array_push($m_properties_for_sale, $p);
         }
@@ -114,7 +117,8 @@ class ListingsController extends Controller
                 $p['agent'] = $property->agent->username;
                 $p['price'] = $property->price;
                 $p['currency'] = strtolower($property->currency);
-                $p['image'] = $property->image;
+                //$p['image'] = $property->image;
+                $p['image'] = cloudinary_url($property->image);
 
                 array_push($search_properties, $p);
             }
@@ -178,7 +182,8 @@ class ListingsController extends Controller
 
         //end of clean ou the reviews
 
-        $p['main_image'] = $property->image;
+        //$p['main_image'] = $property->image;
+        $p['main_image'] = cloudinary_url($property->image);
 
         $otherImages = $property->images;
         //array_unshift($otherImages, $property->image);
@@ -190,13 +195,15 @@ class ListingsController extends Controller
         $i = array();
 
         foreach ($otherImages as $img) {
-        	$i["image"] = $img->image;
+        	//$i["image"] = $img->image;
+            $i['image'] = cloudinary_url($img->image);
         	array_push($img_arr, $i);
         }
 
         $img_main = array();
 
-        $img_main["image"] = $property->image;
+        //$img_main["image"] = $property->image;
+        $img_main['image'] = cloudinary_url($property->image);
 
         array_unshift($img_arr, $img_main);
 
