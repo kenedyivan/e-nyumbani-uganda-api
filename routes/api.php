@@ -35,5 +35,8 @@ Route::get('/listings/property/cloud-uploader', 'MobileUser\ListingsController@c
 Route::post('/login','MobileUser\LoginController@login');
 Route::post('/profile','MobileUser\LoginController@userProfile');
 
+//User social authentication routes
+Route::post('/login-social-user','MobileUser\LoginController@socialLogin');
+
 //Agent
 Route::get('/agent','MobileUser\AgentPropertiesController@myProperties');

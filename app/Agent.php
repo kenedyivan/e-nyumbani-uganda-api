@@ -31,4 +31,9 @@ class Agent extends Authenticatable
   public function agent_favorites(){
       return $this->belongsToMany('App\Property','agent_favorites');
   }
+
+  public function socialId()
+    {
+        return $this->hasOne('App\socialId');
+    }
 }
