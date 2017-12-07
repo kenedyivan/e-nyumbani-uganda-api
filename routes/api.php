@@ -38,5 +38,8 @@ Route::post('/profile','MobileUser\LoginController@userProfile');
 //User social authentication routes
 Route::post('/login-social-user','MobileUser\LoginController@socialLogin');
 
+//User registration
+Route::post('/register','MobileUser\RegisterController@register');
+
 //Agent
 Route::get('/agent','MobileUser\AgentPropertiesController@myProperties');
