@@ -41,5 +41,9 @@ Route::post('/login-social-user','MobileUser\LoginController@socialLogin');
 //User registration
 Route::post('/register','MobileUser\RegisterController@register');
 
+//Agent properties
+Route::get('/agent/my-properties','MobileUser\AgentPropertiesController@myProperties');
+Route::get('/agent/properties','MobileUser\AgentPropertiesController@agentProperties');
+
 //Agent
-Route::get('/agent','MobileUser\AgentPropertiesController@myProperties');
+Route::get('/agents', 'MobileUser\AgentsController@getAgents');

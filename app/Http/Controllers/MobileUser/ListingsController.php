@@ -195,8 +195,8 @@ class ListingsController extends Controller
         $i = array();
 
         foreach ($otherImages as $img) {
-        	//$i["image"] = $img->image;
-            $i['image'] = cloudinary_url($img->image);
+        	$i["image"] = $img->image;
+            //$i['image'] = cloudinary_url($img->image);
         	array_push($img_arr, $i);
         }
 
