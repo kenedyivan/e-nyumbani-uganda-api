@@ -26,7 +26,8 @@ class AgentPropertiesController extends Controller
             $p['address'] = $property->address;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            $p['image'] = cloudinary_url($property->image);
+            //$p['image'] = cloudinary_url($property->image);
+            $p['image'] = $property->image;
 
             array_push($a_properties, $p);
 
@@ -61,7 +62,8 @@ class AgentPropertiesController extends Controller
             }
             $p['status'] = $status;
             $p['currency'] = strtolower($property->currency);
-            $p['image'] = cloudinary_url($property->image);
+            //$p['image'] = cloudinary_url($property->image);
+            $p['image'] = $property->image;
 
             array_push($a_properties, $p);
 

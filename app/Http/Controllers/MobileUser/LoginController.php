@@ -26,12 +26,14 @@ class LoginController extends Controller
     		if (Hash::check($password, $user[0]->password)){
 	    		$resp['msg'] = 'Login successful';
 				$resp['id'] = $user[0]->id;
+				$resp['login_type'] = $user[0]->login_type;
 				$resp['error'] = 0;
 				$resp['success'] = 1;
     		
 	    	}else{
 	    		$resp['msg'] = 'Incorrect password';
 				$resp['id'] = 0;
+				$resp['login_type'] = 0;
 				$resp['error'] = 1; 
 				$resp['success'] = 0;;
 	    	}
@@ -40,6 +42,7 @@ class LoginController extends Controller
     		
     		$resp['msg'] = 'Login failed';
     		$resp['id'] = 0;
+    		$resp['login_type'] = 0;
     		$resp['error'] = 2;
     		$resp['success'] = 0;
 
@@ -60,6 +63,7 @@ class LoginController extends Controller
     	$lastName = $request->input('last_name');
     	$userName = $request->input('username');    	
     	$socialId = $request->input('social_id');
+    	$loginType = 2;
 
     	//check if social id already there
 
@@ -70,6 +74,7 @@ class LoginController extends Controller
     		$resp['msg'] = 'Login successful';
 			$resp['id'] = $s[0]->agent->id;
 			$resp['s_id'] = $s[0]->social_id;
+			$resp['login_type'] = $s[0]->agent->login_type;
 			$resp['error'] = 0;
 			$resp['success'] = 1;
     	}else{
@@ -78,6 +83,7 @@ class LoginController extends Controller
 	    	$user->first_name = $firstName;
 	    	$user->last_name = $lastName;
 	    	$user->username = $userName;
+	    	$user->logint_type = $loginType;
 	    	$user->profile_picture = "no_profile_picture";
 	    	$user->password = Hash::make($socialId.$userName);
 
@@ -90,6 +96,7 @@ class LoginController extends Controller
 	    			$resp['msg'] = 'Login successful';
 					$resp['id'] = $user->id;
 					$resp['s_id'] = $social_id->social_id;
+					$resp['login_type'] = $user->login_type;
 					$resp['error'] = 0;
 					$resp['success'] = 1;
 	    		}else{
@@ -97,6 +104,7 @@ class LoginController extends Controller
 	    		$resp['msg'] = 'Login failed';
 	    		$resp['id'] = 0;
 	    		$resp['s_id'] = 0;
+	    		$resp['login_type'] = 0;
 	    		$resp['error'] = 1;
 	    		$resp['success'] = 0;
 
@@ -107,6 +115,7 @@ class LoginController extends Controller
 	    		$resp['msg'] = 'Failed getting social details';
 	    		$resp['id'] = 0;
 	    		$resp['s_id'] = 0;
+	    		$resp['login_type'] = 0;
 	    		$resp['error'] = 2;
 	    		$resp['success'] = 0;
 

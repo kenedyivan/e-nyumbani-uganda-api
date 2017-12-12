@@ -17,6 +17,7 @@ class RegisterController extends Controller
     	$username = $request->input('username');
     	$email = $request->input('email');
     	$password = $request->input('password');
+    	$loginType = 1;
 
     	$email_check = Agent::where('email',$email)->take(1)->get();
 
@@ -34,16 +35,19 @@ class RegisterController extends Controller
 	    	$agent->username = $username;
 	    	$agent->email = $email;
 	    	$agent->password = bcrypt($password);
+	    	$agent->login_type = $loginType;
 	    	$agent->profile_picture = "no_profile_picture";
 
 	    	if($agent->save()){
 					$resp['msg'] = 'Sign up successful';
 					$resp['id'] = $agent->id;
+					$resp['login_type'] = $agent->login_type;
 					$resp['error'] = 0;
 					$resp['success'] = 1;
 	    	}else{
 		    		$resp['msg'] = 'Sign up failed';
 					$resp['id'] = 0;
+					$resp['login_type'] = 0;
 					$resp['error'] = 1; 
 					$resp['success'] = 0;;
 		    }
