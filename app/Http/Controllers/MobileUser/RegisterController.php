@@ -49,10 +49,54 @@ class RegisterController extends Controller
 					$resp['id'] = 0;
 					$resp['login_type'] = 0;
 					$resp['error'] = 1; 
-					$resp['success'] = 0;;
+					$resp['success'] = 0;
 		    }
     	}
 
 	    return json_encode($resp);
+    }
+
+
+    function createOtherDetails(Request $request){
+    	$resp = array();
+
+    	$id = $request->input('id');
+    	$profile = $request->input('profile');
+    	$email = $request->input('email');
+    	$company = $request->input('company');
+
+
+    	$agent = Agent::find($id);
+
+    	if($profile != 45){
+    		$agent->user_type = $profile;
+    	}
+    	
+
+    	if($email != null || $email != ""){
+    		$agent->email = $email;
+    	}
+
+    	if($company != null || $company != ""){
+    		$agent->company = $company;
+    	}
+
+    	if($agent->save()){
+
+    		$resp['msg'] = 'Update successful';
+			$resp['id'] = $agent->id;
+			$resp['error'] = 0;
+			$resp['success'] = 1;
+
+    	}else{
+    		$resp['msg'] = 'Update failed';
+			$resp['id'] = 0;
+			$resp['error'] = 1; 
+			$resp['success'] = 0;
+		
+    	}
+
+    	return json_encode($resp);
+
     }
 }

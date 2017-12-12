@@ -63,6 +63,7 @@ class LoginController extends Controller
     	$lastName = $request->input('last_name');
     	$userName = $request->input('username');    	
     	$socialId = $request->input('social_id');
+    	$profilePicture = $request->input('profile_picture');
     	$loginType = 2;
 
     	//check if social id already there
@@ -83,7 +84,7 @@ class LoginController extends Controller
 	    	$user->first_name = $firstName;
 	    	$user->last_name = $lastName;
 	    	$user->username = $userName;
-	    	$user->logint_type = $loginType;
+	    	$user->login_type = $loginType;
 	    	$user->profile_picture = "no_profile_picture";
 	    	$user->password = Hash::make($socialId.$userName);
 
@@ -91,6 +92,7 @@ class LoginController extends Controller
 	    		$u = Agent::find($user->id);
 	    		$social_id = new SocialId();
 	    		$social_id->social_id = $socialId;
+	    		$social_id->profile_picture = $profilePicture;
 
 	    		if($u->socialId()->save($social_id)){
 	    			$resp['msg'] = 'Login successful';
@@ -132,6 +134,7 @@ class LoginController extends Controller
     	$resp = array();
 
     	$id = $request->input('id');
+    	$loginType = $request->input('login_type');
 
     	$user = Agent::where('id',$id)->take(1)->get();
 
@@ -142,8 +145,34 @@ class LoginController extends Controller
     		$resp['error'] = 0;
     		$resp['firstname'] = strtolower($u->first_name);
     		$resp['lastname'] = strtolower($u->last_name);
-    		$resp['email'] = $u->email;
-    		$resp['profile_picture'] = $u->profile_picture;
+
+    		if($u->email == null){
+    			$resp['email'] = "";
+    		}else{
+				$resp['email'] = $u->email;
+    		}
+
+    		if($u->company == null){
+    			$resp['company'] = "";
+    		}else{
+    			$resp['company'] = $u->company;
+    		}
+
+    		if($u->user_type == null){
+    			$resp['user_type'] = "";
+    		}else{
+    			$resp['user_type'] = $u->user_type;
+    		}
+    		
+    		//return $resp;
+    		
+
+			if($u->login_type == 2){
+				$resp['profile_picture'] = $u->socialId->profile_picture;
+			}else{
+				$resp['profile_picture'] = $u->profile_picture;
+			}
+    		
     	}else{
     		$res['msg'] = "No profile found";
     		$resp['success'] = 0;

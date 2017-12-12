@@ -34,6 +34,6 @@ class Agent extends Authenticatable
 
   public function socialId()
     {
-        return $this->hasOne('App\socialId');
+        return $this->hasOne('App\SocialId');
     }
 }

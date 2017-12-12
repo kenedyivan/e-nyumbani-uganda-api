@@ -211,7 +211,8 @@ class ListingsController extends Controller
 
         
 
-        return json_encode($p);
+        //return json_encode($p);
+        return $p;
 
 
     }
