@@ -209,7 +209,35 @@ class ListingsController extends Controller
 
         $p['other_images'] = $img_arr;
 
-        
+        //Retreives related properties
+
+        $propertyType =  $property->type->id;
+
+        $relatedProperties = Property::where('property_type_id',$propertyType)
+        ->where('id','!=',$property->id)
+        ->get();
+
+        $rProperties_arr = array();
+        $r = array();
+        foreach ($relatedProperties as $rProperty) {
+            $r['id'] = $rProperty->id;
+            $r['title'] = $rProperty->title;
+            $r['image'] = $rProperty->image;
+
+            //Sets status sale or rent
+            if($rProperty->for_sale == 1){
+                $status = "for sale";
+            }else{
+                $status = "for rent";
+            }
+
+            $r['status'] = $status;
+            $r['rating'] = $rProperty->rating;
+
+            array_push($rProperties_arr, $r);
+        }
+
+        $p['related_properties'] = $rProperties_arr;
 
         //return json_encode($p);
         return $p;
