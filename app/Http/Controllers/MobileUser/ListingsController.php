@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Cloudinary\Api;
 use App\CloudinaryImage;
+use App\Agent;
 
 class ListingsController extends Controller
 {
@@ -129,7 +130,8 @@ class ListingsController extends Controller
     }
 
     public function showProperty(Request $request){
-        $id = $request->input('id');
+        $id = $request->input('property_id');
+        $agent_id = $request->input('agent_id');
 
         $property = Property::find($id);
 
@@ -157,13 +159,32 @@ class ListingsController extends Controller
         $p['agent'] = $property->agent->username;
         $p['price'] = $property->price;
         $p['currency'] = strtolower($property->currency);
+        $p['created_at'] = $property->created_at->format('M d, Y \a\t h:i a');
 
+        //Sets favorite property flag
+        $favorite = Agent::find($agent_id)->agent_favorites()
+            ->where('property_id',$property->id)
+            ->get();
 
-        
+        if($favorite->count()>0){
+            $fav_flag = 1;
+        }else{
+            $fav_flag = 0;
+        }
+
+        $p['favorite'] = $fav_flag;
+
+        $pAgent = array();
+
+        $pAgent["first_name"] = $property->agent->first_name;
+        $pAgent["last_name"] = $property->agent->last_name;
+        $pAgent["company"] = $property->agent->company;
+
+        $p['agent'] = $pAgent;
 
         //clean out the reviews
         $r_arr = array();
-        $reviews = $property->reviews;
+        $reviews = $property->reviews()->orderBy('id','DESC')->take(3)->get();
 
         $rrr = array();
 
@@ -171,7 +192,7 @@ class ListingsController extends Controller
             $r_arr['id'] = $review->id;
             $r_arr['rating'] = $review->rating;
             $r_arr['review'] = $review->review;
-            $r_arr['created_at'] = $review->created_at;
+            $r_arr['created_at'] = $review->created_at->format('M d, Y');
             $r_arr['username'] = $review->agent->username;
             $r_arr['profile_picture'] = $review->agent->profile_picture;
 
