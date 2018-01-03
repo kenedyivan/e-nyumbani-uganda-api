@@ -33,4 +33,47 @@ class AgentsController extends Controller
 
     	return json_encode($m_agents);
     }
+
+    function showAgent(Request $request){
+        $agentId = $request->input('agent_id');
+
+        $agent = Agent::find($agentId);
+
+        $a = array();
+
+        $a["profile_picture"] = $agent->profile_picture;
+        $a["first_name"] = $agent->first_name;
+        $a["last_name"] = $agent->last_name;
+        $a["company"] = $agent->company;
+        $a["office_phone"] = $agent->office_phone;
+        $a["mobile_phone"] = $agent->mobile_phone;
+        $a["email"] = $agent->email;
+
+        $agentProperties = $agent->properties()->take(6)->get();
+
+
+        $rProperties_arr = array();
+        $r = array();
+        foreach ($agentProperties as $rProperty) {
+            $r['id'] = $rProperty->id;
+            $r['title'] = $rProperty->title;
+            $r['image'] = $rProperty->image;
+
+            //Sets status sale or rent
+            if($rProperty->for_sale == 1){
+                $status = "for sale";
+            }else{
+                $status = "for rent";
+            }
+
+            $r['status'] = $status;
+            $r['rating'] = $rProperty->rating;
+
+            array_push($rProperties_arr, $r);
+        }
+
+        $a['agent_properties'] = $rProperties_arr;
+
+        return $a;
+    }
 }

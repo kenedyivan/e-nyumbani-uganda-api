@@ -48,6 +48,7 @@ Route::get('/agent/properties', 'MobileUser\AgentPropertiesController@agentPrope
 
 //Agent
 Route::get('/agents', 'MobileUser\AgentsController@getAgents');
+Route::get('/agent', 'MobileUser\AgentsController@showAgent');
 
 //Property review
 Route::post('/review', 'MobileUser\PropertyReviewsController@reviewProperty');

@@ -32,6 +32,7 @@ class ListingsController extends Controller
             $p['title'] = $property->title;
             $p['rating'] = $property->rating;
             $p['address'] = $property->address;
+            $p['agent_id'] = $property->agent->id;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
