@@ -62,9 +62,30 @@ class AddToFavoritesController extends Controller
     }
 
     function getAgentFavourites(Request $request){
-        $agentId = $request->input('agent_id');
 
-        $favorites = Agent::find($agentId)->agent_favorites();
+        $agent_id = $_GET['agent_id'];
+
+        $favorites = Agent::findOrFail($agent_id)->agent_favorites;
+
+        $res = array();
+        $p = array();
+        $fav_array = array();
+        foreach ($favorites as $favorite) {
+            $p['id'] = $favorite->id;
+            $p['title'] = $favorite->title;
+            $p['rating'] = $favorite->rating;
+            $p['address'] = $favorite->address;
+            $p['agent_id'] = $favorite->agent->id;
+            $p['agent'] = $favorite->agent->username;
+            $p['price'] = $favorite->price;
+            $p['currency'] = strtolower($favorite->currency);
+            $p['image'] = $favorite->image;
+
+            array_push($fav_array, $p);
+        }
+
+        //$res["favorites"] = $fav_array;
+        return $fav_array;
 
     }
 }

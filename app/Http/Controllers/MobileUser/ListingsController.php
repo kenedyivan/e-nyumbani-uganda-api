@@ -52,12 +52,13 @@ class ListingsController extends Controller
 
         $properties = $properties = Property::where('for_rent', 1)->where('active', 1)->orderBy('id', 'DESC')->get();
 
-        foreach ($properties as $property) {
+        foreach ($properties as $property) { ///todo : add agent id as part of this payload
 
             $p['id'] = $property->id;
             $p['title'] = $property->title;
             $p['rating'] = $property->rating;
             $p['address'] = $property->address;
+            $p['agent_id'] = $property->agent->id;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
@@ -78,12 +79,13 @@ class ListingsController extends Controller
 
         $properties = $properties = Property::where('for_sale', 1)->where('active', 1)->orderBy('id', 'DESC')->get();
 
-        foreach ($properties as $property) {
+        foreach ($properties as $property) { ///todo : add agent id as part of this payload
 
             $p['id'] = $property->id;
             $p['title'] = $property->title;
             $p['rating'] = $property->rating;
             $p['address'] = $property->address;
+            $p['agent_id'] = $property->agent->id;
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
@@ -110,12 +112,13 @@ class ListingsController extends Controller
                 ->orWhere('address', 'LIKE', '%' . $searchQuery . '%')
                 ->get();
 
-            foreach ($results as $property) {
+            foreach ($results as $property) { ///todo : add agent id as part of this payload
 
                 $p['id'] = $property->id;
                 $p['title'] = $property->title;
                 $p['rating'] = $property->rating;
                 $p['address'] = $property->address;
+                $p['agent_id'] = $property->agent->id;
                 $p['agent'] = $property->agent->username;
                 $p['price'] = $property->price;
                 $p['currency'] = strtolower($property->currency);

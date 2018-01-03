@@ -55,3 +55,6 @@ Route::post('/review', 'MobileUser\PropertyReviewsController@reviewProperty');
 
 //Add to favorites routes
 Route::get('/add-to-favorites', 'MobileUser\AddToFavoritesController@addToFavorites');
+
+//Get agent favorites
+Route::get('/my-favorites', 'MobileUser\AddToFavoritesController@getAgentFavourites');
