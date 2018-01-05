@@ -49,6 +49,12 @@ Route::get('/agent/properties', 'MobileUser\AgentPropertiesController@agentPrope
 //Agent
 Route::get('/agents', 'MobileUser\AgentsController@getAgents');
 Route::get('/agent', 'MobileUser\AgentsController@showAgent');
+Route::get('/agent/account-details', 'MobileUser\AgentsController@accountDetails');
+
+//Update agent details
+Route::post('/agent/update-profile', 'MobileUser\AgentsController@updateProfile');
+Route::post('/agent/update-contact', 'MobileUser\AgentsController@updateContact');
+Route::post('/agent/update-company', 'MobileUser\AgentsController@updateCompany');
 
 //Property review
 Route::post('/review', 'MobileUser\PropertyReviewsController@reviewProperty');
