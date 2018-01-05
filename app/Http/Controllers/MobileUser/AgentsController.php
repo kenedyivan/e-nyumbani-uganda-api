@@ -101,6 +101,7 @@ class AgentsController extends Controller
             $resp['email'] = $agent->email;
             $resp['company'] = $agent->company;
             $resp['position'] = $agent->position;
+            $resp['image'] = $agent->profile_picture;
 
             $resp['msg'] = 'Retried user account';
             $resp['error'] = 0;
