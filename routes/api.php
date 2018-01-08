@@ -27,8 +27,13 @@ Route::get('/listings/for-sale', 'MobileUser\ListingsController@getAllForSale');
 Route::get('/listings/search', 'MobileUser\ListingsController@search');
 Route::get('/listings/property', 'MobileUser\ListingsController@showProperty');
 Route::post('/listings/property/upload-photo', 'MobileUser\ListingsController@uploadPhoto');
+Route::post('/listings/property/update-photo', 'MobileUser\ListingsController@updatePhoto');
 Route::post('/listings/property/create', 'MobileUser\ListingsController@createProperty');
 Route::get('/listings/property/cloud-uploader', 'MobileUser\ListingsController@cloudinaryUploader');
+
+//Update property
+Route::get('/listings/property/edit','MobileUser\ListingsController@editProperty');
+Route::post('/listings/property/save','MobileUser\ListingsController@save');
 
 
 //User Authentication routes
@@ -44,6 +49,7 @@ Route::post('/agent/other-details', 'MobileUser\RegisterController@createOtherDe
 
 //Agent properties
 Route::get('/agent/my-properties', 'MobileUser\AgentPropertiesController@myProperties');
+Route::get('/agent/my-property', 'MobileUser\AgentPropertiesController@myProperty');
 Route::get('/agent/properties', 'MobileUser\AgentPropertiesController@agentProperties');
 
 //Agent
@@ -64,3 +70,5 @@ Route::get('/add-to-favorites', 'MobileUser\AddToFavoritesController@addToFavori
 
 //Get agent favorites
 Route::get('/my-favorites', 'MobileUser\AddToFavoritesController@getAgentFavourites');
+
+Route::get('/listings/types', 'MobileUser\ListingsController@propertyTypes');

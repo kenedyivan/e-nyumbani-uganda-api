@@ -73,4 +73,72 @@ class AgentPropertiesController extends Controller
         //return $a_properties;
     }
 
+    function myProperty(Request $request){
+
+        $id = $request->input('id');
+
+        $property = Property::findOrFail($id);
+
+        $status = null;
+
+        if ($property->for_sale = 1) {
+            $status = "sale";
+        }
+
+        if ($property->for_rent = 1) {
+            $status = "rent";
+        }
+
+
+        $p = array();
+
+        $p['id'] = $property->id;
+        $p['title'] = $property->title;
+        $p['description'] = $property->description;
+        $p['rating'] = $property->rating;
+        $p['no_reviews'] = $property->reviews->count();
+        $p['address'] = $property->address;
+        $p['type'] = $property->type->name;
+        $p['status'] = $status;
+        $p['agent_id'] = $property->agent->id;
+        $p['agent'] = $property->agent->username;
+        $p['price'] = $property->price;
+        $p['currency'] = strtolower($property->currency);
+        $p['created_at'] = $property->created_at->format('M d, Y \a\t h:i a');
+
+        //Sets favorite property flag
+
+        //end of clean ou the reviews
+
+        //$p['main_image'] = $property->image;
+        $p['main_image'] = $property->image;
+
+        $otherImages = $property->images;
+        //array_unshift($otherImages, $property->image);
+
+        //$p['other_images'] = $otherImages;
+
+        $img_arr = array();
+
+        $i = array();
+
+        foreach ($otherImages as $img) {
+            $i["image"] = $img->image;
+            //$i['image'] = cloudinary_url($img->image);
+            array_push($img_arr, $i);
+        }
+
+        $img_main = array();
+
+        //$img_main["image"] = $property->image;
+        $img_main['image'] = $property->image;
+
+        array_unshift($img_arr, $img_main);
+
+        $p['other_images'] = $img_arr;
+
+        //return json_encode($p);
+        return $p;
+    }
+
 }
