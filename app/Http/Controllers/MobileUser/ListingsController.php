@@ -7,14 +7,15 @@ use App\PropertyImage;
 use App\PropertyCloudImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Cloudinary\Api;
 use App\CloudinaryImage;
 use App\Agent;
 use App\PropertyType;
+use App\Traits\GenerateImagePath;
 
 class ListingsController extends Controller
 {
+    use GenerateImagePath;
+
     function __construct()
     {
         parent::__construct();
@@ -38,8 +39,7 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            //$p['image'] = $property->image;
-            $p['image'] = $property->image;
+            $p['image'] = $this->getPropertyImage($property->image);
 
             array_push($m_properties, $p);
         }
@@ -64,8 +64,7 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            //$p['image'] = $property->image;
-            $p['image'] = $property->image;
+            $p['image'] = $this->getPropertyImage($property->image);
 
             array_push($m_properties_for_rent, $p);
         }
@@ -91,8 +90,7 @@ class ListingsController extends Controller
             $p['agent'] = $property->agent->username;
             $p['price'] = $property->price;
             $p['currency'] = strtolower($property->currency);
-            //$p['image'] = $property->image;
-            $p['image'] = $property->image;
+            $p['image'] = $this->getPropertyImage($property->image);
 
             array_push($m_properties_for_sale, $p);
         }
@@ -124,8 +122,7 @@ class ListingsController extends Controller
                 $p['agent'] = $property->agent->username;
                 $p['price'] = $property->price;
                 $p['currency'] = strtolower($property->currency);
-                //$p['image'] = $property->image;
-                $p['image'] = $property->image;
+                $p['image'] = $this->getPropertyImage($property->image);
 
                 array_push($search_properties, $p);
             }
@@ -211,28 +208,22 @@ class ListingsController extends Controller
 
         //end of clean ou the reviews
 
-        //$p['main_image'] = $property->image;
-        $p['main_image'] = $property->image;
+        $p['main_image'] = $this->getPropertyImage($property->image);
 
         $otherImages = $property->images;
-        //array_unshift($otherImages, $property->image);
-
-        //$p['other_images'] = $otherImages;
 
         $img_arr = array();
 
         $i = array();
 
         foreach ($otherImages as $img) {
-            $i["image"] = $img->image;
-            //$i['image'] = cloudinary_url($img->image);
+            $i["image"] = $this->getPropertyImage($img->image);
             array_push($img_arr, $i);
         }
 
         $img_main = array();
 
-        //$img_main["image"] = $property->image;
-        $img_main['image'] = $property->image;
+        $img_main['image'] = $this->getPropertyImage($property->image);
 
         array_unshift($img_arr, $img_main);
 
@@ -251,7 +242,7 @@ class ListingsController extends Controller
         foreach ($relatedProperties as $rProperty) {
             $r['id'] = $rProperty->id;
             $r['title'] = $rProperty->title;
-            $r['image'] = $rProperty->image;
+            $r['image'] = $this->getPropertyImage($property->image);
 
             //Sets status sale or rent
             if ($rProperty->for_sale == 1) {
@@ -278,7 +269,6 @@ class ListingsController extends Controller
     function uploadPhoto()
     {
         $resp = array();
-        $cloudResult;
 
         if (isset($_POST["image"])) {
 
@@ -507,7 +497,7 @@ class ListingsController extends Controller
         //Ends status array
 
         //Images array
-        $p['main_image'] = $property->image;
+        $p['main_image'] = $this->getPropertyImage($property->image);
 
         $otherImages = $property->images;
 
@@ -516,15 +506,13 @@ class ListingsController extends Controller
         $i = array();
 
         foreach ($otherImages as $img) {
-            $i["image"] = $img->image;
-            //$i['image'] = cloudinary_url($img->image);
+            $i["image"] = $this->getPropertyImage($img->image);
             array_push($img_arr, $i);
         }
 
         $img_main = array();
 
-        //$img_main["image"] = $property->image;
-        $img_main['image'] = $property->image;
+        $img_main['image'] = $this->getPropertyImage($property->image);
 
         array_unshift($img_arr, $img_main);
 
@@ -595,7 +583,7 @@ class ListingsController extends Controller
 
         if ($property->for_sale == 1) {
             $o_status = 'Sale';
-        } else{
+        } else {
             $o_status = 'Rent';
         }
 
@@ -616,43 +604,43 @@ class ListingsController extends Controller
         if ($property->save()) {
             $prop = array();
 
-            if($property->title != $o_title)
+            if ($property->title != $o_title)
                 $prop['title'] = $o_title;
 
-            if($property->description != $o_description)
+            if ($property->description != $o_description)
                 $prop['description'] = $property->description;
 
-            if($property->property_type_id != $o_type)
+            if ($property->property_type_id != $o_type)
                 $prop['type'] = $property->property_type_id;
 
 
             if ($property->for_sale == 1) {
                 $r_status = 'Sale';
-            } else{
+            } else {
                 $r_status = 'Rent';
             }
 
-            if($r_status != $o_status)
+            if ($r_status != $o_status)
                 $prop['status'] = $r_status;
 
 
-            if($property->price != $o_price)
+            if ($property->price != $o_price)
                 $prop['price'] = $property->price;
 
-            if($property->currency != $o_currency)
+            if ($property->currency != $o_currency)
                 $prop['currency'] = $property->currency;
 
 
-            if($property->address != $o_address)
+            if ($property->address != $o_address)
                 $prop['address'] = $property->address;
 
-            if($property->district != $o_district)
+            if ($property->district != $o_district)
                 $prop['district'] = $property->district;
 
-            if($property->town != $o_town)
+            if ($property->town != $o_town)
                 $prop['town'] = $property->town;
 
-            if($property->region != $o_region)
+            if ($property->region != $o_region)
                 $prop['region'] = $property->region;
 
 
@@ -675,7 +663,6 @@ class ListingsController extends Controller
     function updatePhoto()
     {
         $resp = array();
-        $cloudResult;
 
         if (isset($_POST["image"])) {
 
@@ -684,9 +671,9 @@ class ListingsController extends Controller
             $id = $_POST["id"];
 
             $current_image_name = $_POST["current_image_name"];
-            if($current_image_name != "" || $current_image_name != null){
+            if ($current_image_name != "" || $current_image_name != null) {
 
-                $property_image = PropertyImage::where("image",$current_image_name);
+                $property_image = PropertyImage::where("image", $current_image_name);
                 $property_image->forceDelete();
             }
 
@@ -753,7 +740,8 @@ class ListingsController extends Controller
         return json_encode($resp);
     }
 
-    function propertyTypes(){
+    function propertyTypes()
+    {
         $resp = array();
         $types = PropertyType::all();
 

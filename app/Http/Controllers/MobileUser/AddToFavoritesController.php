@@ -5,23 +5,25 @@ namespace App\Http\Controllers\MobileUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Agent;
-use App\Property;
+use App\Traits\GenerateImagePath;
 
 class AddToFavoritesController extends Controller
 {
-    function addToFavorites(Request $request){
-        $resp = array();
+    use GenerateImagePath;
+
+    function addToFavorites(Request $request)
+    {
 
         $agentId = $request->input('agent_id');
         $propertyId = $request->input('property_id');
 
         $favorite = Agent::find($agentId)->agent_favorites()
-            ->where('property_id',$propertyId)
+            ->where('property_id', $propertyId)
             ->get();
 
-        if($favorite->count()>0){
-            return $this->removeFavorite($propertyId,$agentId);
-        }else{
+        if ($favorite->count() > 0) {
+            return $this->removeFavorite($propertyId, $agentId);
+        } else {
             $agent = Agent::find($agentId);
 
             $agent->agent_favorites()->attach($propertyId);
@@ -40,7 +42,8 @@ class AddToFavoritesController extends Controller
 
     }
 
-    function removeFavorite($p_id,$a_id){
+    function removeFavorite($p_id, $a_id)
+    {
         $res = array();
 
         $property_id = $p_id;
@@ -61,7 +64,8 @@ class AddToFavoritesController extends Controller
         return $res;
     }
 
-    function getAgentFavourites(Request $request){
+    function getAgentFavourites(Request $request)
+    {
 
         $agent_id = $_GET['agent_id'];
 
@@ -79,12 +83,11 @@ class AddToFavoritesController extends Controller
             $p['agent'] = $favorite->agent->username;
             $p['price'] = $favorite->price;
             $p['currency'] = strtolower($favorite->currency);
-            $p['image'] = $favorite->image;
+            $p['image'] = $this->getPropertyImage($favorite->image);
 
             array_push($fav_array, $p);
         }
 
-        //$res["favorites"] = $fav_array;
         return $fav_array;
 
     }

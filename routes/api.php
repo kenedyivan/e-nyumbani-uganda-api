@@ -61,6 +61,7 @@ Route::get('/agent/account-details', 'MobileUser\AgentsController@accountDetails
 Route::post('/agent/update-profile', 'MobileUser\AgentsController@updateProfile');
 Route::post('/agent/update-contact', 'MobileUser\AgentsController@updateContact');
 Route::post('/agent/update-company', 'MobileUser\AgentsController@updateCompany');
+Route::post('/agent/upload-profile-picture', 'MobileUser\AgentsController@uploadProfilePicture');
 
 //Property review
 Route::post('/review', 'MobileUser\PropertyReviewsController@reviewProperty');
@@ -72,3 +73,4 @@ Route::get('/add-to-favorites', 'MobileUser\AddToFavoritesController@addToFavori
 Route::get('/my-favorites', 'MobileUser\AddToFavoritesController@getAgentFavourites');
 
 Route::get('/listings/types', 'MobileUser\ListingsController@propertyTypes');
+

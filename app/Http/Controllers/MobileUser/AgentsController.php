@@ -32,7 +32,8 @@ class AgentsController extends Controller
             array_push($m_agents, $a);
         }
 
-        return json_encode($m_agents);
+        //return json_encode($m_agents);
+        return $m_agents;
     }
 
     function showAgent(Request $request)
@@ -234,5 +235,47 @@ class AgentsController extends Controller
 
     }
 
+    function uploadProfilePicture()
+    {
+        $resp = array();
+
+        if (isset($_POST["image"])) {
+
+            $encoded_string = $_POST["encoded_string"];
+            $image_name = $_POST["image"];
+            $id = $_POST["id"];
+
+            $agent = Agent::find($id);
+
+            $decoded_string = base64_decode($encoded_string);
+
+            $path = public_path() . '/images/agents/profile_330x330/' . $image_name;
+
+            $file = fopen($path, 'wb');
+            $is_written = fwrite($file, $decoded_string);
+            if ($is_written) {
+                fclose($file);
+                $agent->profile_picture = $image_name;
+                $agent->picture_kind = 0;
+
+                if($agent->save()){
+                    $resp['msg'] = "Image upload successful";
+                }else{
+                    $resp['msg'] = "failed saving to database";
+                    return json_encode($resp);
+                }
+
+            } else {
+                $resp['msg'] = "failed";
+                return json_encode($resp);
+            }
+
+        } else {
+            $resp['msg'] = "No image found";
+        }
+
+
+        return json_encode($resp);
+    }
 
 }
