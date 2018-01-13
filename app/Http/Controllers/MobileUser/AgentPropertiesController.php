@@ -114,7 +114,7 @@ class AgentPropertiesController extends Controller
 
         //end of clean ou the reviews
 
-        $p['main_image'] = $this->getPropertyImage($property->image);
+        $p['main_image'] = $this->getPropertyDetailImage($property->image);
 
         $otherImages = $property->images;
 
@@ -125,14 +125,14 @@ class AgentPropertiesController extends Controller
         $i = array();
 
         foreach ($otherImages as $img) {
-            $i["image"] = $this->getPropertyImage($img->image);
+            $i["image"] = $this->getPropertyDetailImage($img->image);
             array_push($img_arr, $i);
         }
 
         $img_main = array();
 
         //$img_main["image"] = $property->image;
-        $img_main['image'] = $this->getPropertyImage($property->image);
+        $img_main['image'] = $this->getPropertyDetailImage($property->image);
 
         array_unshift($img_arr, $img_main);
 

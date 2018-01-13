@@ -21,6 +21,11 @@ class ListingsController extends Controller
         parent::__construct();
     }
 
+    function tryTrait(){
+        $image = $this->getPropertyImage(Property::find(34)->image);
+        echo "<img src='.$image.' />";
+    }
+
     function getAllListings(Request $request)
     {
 
@@ -208,7 +213,7 @@ class ListingsController extends Controller
 
         //end of clean ou the reviews
 
-        $p['main_image'] = $this->getPropertyImage($property->image);
+        $p['main_image'] = $this->getPropertyDetailImage($property->image);
 
         $otherImages = $property->images;
 
@@ -217,13 +222,13 @@ class ListingsController extends Controller
         $i = array();
 
         foreach ($otherImages as $img) {
-            $i["image"] = $this->getPropertyImage($img->image);
+            $i["image"] = $this->getPropertyDetailImage($img->image);
             array_push($img_arr, $i);
         }
 
         $img_main = array();
 
-        $img_main['image'] = $this->getPropertyImage($property->image);
+        $img_main['image'] = $this->getPropertyDetailImage($property->image);
 
         array_unshift($img_arr, $img_main);
 
@@ -242,7 +247,7 @@ class ListingsController extends Controller
         foreach ($relatedProperties as $rProperty) {
             $r['id'] = $rProperty->id;
             $r['title'] = $rProperty->title;
-            $r['image'] = $this->getPropertyImage($property->image);
+            $r['image'] = $this->getPropertyImage($rProperty->image);
 
             //Sets status sale or rent
             if ($rProperty->for_sale == 1) {

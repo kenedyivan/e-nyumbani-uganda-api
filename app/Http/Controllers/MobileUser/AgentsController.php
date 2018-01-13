@@ -5,9 +5,12 @@ namespace App\Http\Controllers\MobileUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Agent;
+use App\Traits\GenerateImagePath;
 
 class AgentsController extends Controller
 {
+    use GenerateImagePath;
+
     function getAgents()
     {
 
@@ -60,7 +63,7 @@ class AgentsController extends Controller
         foreach ($agentProperties as $rProperty) {
             $r['id'] = $rProperty->id;
             $r['title'] = $rProperty->title;
-            $r['image'] = $rProperty->image;
+            $r['image'] = $this->getPropertyImage($rProperty->image);
 
             //Sets status sale or rent
             if ($rProperty->for_sale == 1) {

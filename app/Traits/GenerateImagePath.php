@@ -4,13 +4,15 @@ namespace App\Traits;
 
 trait GenerateImagePath
 {
-    function log($msg) {
+    function log($msg)
+    {
         echo '<pre>';
-        echo date('Y-m-d h:i:s') . ':' . '(' . __CLASS__ .  ') ' . $msg . '<br/>';
+        echo date('Y-m-d h:i:s') . ':' . '(' . __CLASS__ . ') ' . $msg . '<br/>';
         echo '</pre>';
     }
 
-    function __construct(){
+    function __construct()
+    {
         $this->setCloudinaryAttributes();
     }
 
@@ -26,9 +28,21 @@ trait GenerateImagePath
 
     }
 
-    function getPropertyImage($imageName){
+    function getPropertyImage($imageName)
+    {
 
-        return cloudinary_url($imageName);
+        return cloudinary_url($imageName, array(
+            "transformation" => array(
+                array("width" => 150, "height" => 150))));
+
+    }
+
+    function getPropertyDetailImage($imageName)
+    {
+
+        return cloudinary_url($imageName, array(
+            "transformation" => array(
+                array("width" => 364, "height" => 224))));
 
     }
 }

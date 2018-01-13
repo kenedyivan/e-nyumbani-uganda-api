@@ -74,3 +74,5 @@ Route::get('/my-favorites', 'MobileUser\AddToFavoritesController@getAgentFavouri
 
 Route::get('/listings/types', 'MobileUser\ListingsController@propertyTypes');
 
+Route::get('/listings/trait', 'MobileUser\ListingsController@tryTrait');
+
