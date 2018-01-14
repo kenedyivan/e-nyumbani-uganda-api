@@ -11,6 +11,7 @@ use App\CloudinaryImage;
 use App\Agent;
 use App\PropertyType;
 use App\Traits\GenerateImagePath;
+use Illuminate\Support\Facades\DB;
 
 class ListingsController extends Controller
 {
@@ -763,5 +764,92 @@ class ListingsController extends Controller
         $resp["types"] = $types_arr;
 
         return $resp;
+    }
+
+    function filterProperties(Request $request)
+    {
+        $filterQuery = "";
+
+        $highPrice = $request->input("high_price");
+        $lowPrice = $request->input("low_price");
+        $address = $request->input("address");
+        $district = $request->input("district");
+        $town = $request->input("town");
+        $region = $request->input("region");
+        $type = $request->input("type");
+        $status = $request->input("status");
+        $currency = $request->input("currency");
+
+        $filterQuery .="active = '1' ";
+
+        if($highPrice !=null || $highPrice !=null){
+            $filterQuery .= "AND price >= '".$lowPrice."' AND price <= '".$highPrice."' ";
+        }
+
+        if($address != null || $address != ""){
+            $filterQuery .= "AND address = '".$address."' ";
+        }
+
+        if($district != null || $district != ""){
+            $filterQuery .= "AND district = '".$district."' ";
+        }
+
+        if($town != null || $town != ""){
+            $filterQuery .= "AND town = '".$town."' ";
+        }
+
+        if($region != null || $region != ""){
+            $filterQuery .= "AND region = '".$region."' ";
+        }
+
+        if($type != 0){
+            $filterQuery .= "AND property_type_id = '".$type."' ";
+        }
+
+        if($status != null || $region != ""){
+            $state = "";
+            if($status == "Sale"){
+                $state .= "AND for_sale = '1' ";
+            }else{
+                $state .= "AND for_rent = '0' ";
+            }
+
+            $filterQuery .=$state;
+
+        }
+
+        if(strtolower($currency) != null || strtolower($currency) != ""){
+            $filterQuery .= "AND currency = '".strtolower($currency)."' ";
+        }
+
+        //$filterQuery .= "left join agents on properties.agent_id = agents.id";
+
+        $properties = DB::table('properties')
+            ->whereRaw($filterQuery)
+            ->join('agents', 'agents.id', '=', 'properties.agent_id')
+            ->select('properties.*', 'agents.username as username', 'agents.id as a_id')
+            ->orderBy('properties.id', 'DESC')
+            ->get();
+
+
+        $m_properties = array(); //All properties
+        $p = array(); // A property
+
+        foreach ($properties as $property) {
+
+            $p['id'] = $property->id;
+            $p['title'] = $property->title;
+            $p['rating'] = $property->rating;
+            $p['address'] = $property->address;
+            $p['agent_id'] = $property->a_id;
+            $p['agent'] = $property->username;
+            $p['price'] = $property->price;
+            $p['currency'] = strtolower($property->currency);
+            $p['image'] = $this->getPropertyImage($property->image);
+
+            array_push($m_properties, $p);
+        }
+
+        return $m_properties;
     }
 }
